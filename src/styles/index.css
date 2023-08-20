@@ -1,3 +1,50 @@
 /* 
     General Styles
 */
+p{
+    margin: 5px;
+}
+
+.cardsInArow{
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+}
+
+.heartIcon{
+    float: right;
+    margin-top: 5px;
+    border: solid yellow;
+    width: 45px;
+    height: 35px;
+    border-radius: 5px;
+    color: rgb(207, 207, 11);
+}
+.heartIcon:hover{
+    background-color: yellow;
+}
+h2{
+    color: red;
+}
+.card-image{
+    width: 450px;
+    height:400px;
+}
+.footer-character{
+    display: flex;
+}
+.footer-captions{
+    margin: auto;
+
+}
+.footer-planets{
+    display: flex;
+}
+.footer-vehicles{
+    display: flex;
+}
+img{
+    max-width: 100%;
+    height: auto ;
+    aspect-ratio: 14 / 14;
+}
