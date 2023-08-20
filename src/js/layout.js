@@ -10,7 +10,7 @@ import { Single } from "./views/single";
 import injectContext from "./store/appContext";
 import CharacterDetails from './views/characterDetails'; 
 import PlanetDetails from "./views/planetDetails";
-import VehiclesDetails from "./views/vehiclesDetails.js";
+import VehiclesDetails from "./views/vehiclesDetails";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";

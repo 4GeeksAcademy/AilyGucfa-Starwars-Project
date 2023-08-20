@@ -4,7 +4,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			people: [],
 			planets:[],
 			vehicles:[],
-			favorites:[]
+			favorites:[],
+			characterDetails: {}, // Initialize with an empty object
+            planetDetails: {} // Initialize with an empty object
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -45,8 +47,53 @@ const getState = ({ getStore, getActions, setStore }) => {
 					let data = await response.json();
 					setStore({planets:data.results})
 				},
-					
-		
+				fetchInvidualCharacterDetails: async (characterId) => {
+					try {
+						const response = await fetch(`https://swapi.dev/api/people/${characterId}/`);
+						if (!response.ok) {
+							throw new Error("Error fetching character details");
+						}
+						const characterData = await response.json();
+				
+						// Get the current store state
+						const store = getStore();
+				
+						// Update the characterDetails property of the store with the fetched data
+						setStore({
+							...store,
+							characterDetails: characterData
+						});
+					} catch (error) {
+						console.error("Error fetching character details:", error);
+					}
+				},
+				fetchIndividualPlanetDetails: async (planetId) => {
+					try {
+						const response = await fetch(`https://swapi.dev/api/planets/${planetId}/`);
+						if (!response.ok) {
+							throw new Error("Error fetching planet details");
+						}
+						const planetData = await response.json();
+				
+						// Get the current store state
+						const store = getStore();
+				
+						// Update the planetdetails property of the store with the fetched data
+						setStore({
+							...store,
+							planetDetails: planetData
+						});
+					} catch (error) {
+						console.error("Error fetching character details:", error);
+					}
+				},
+				fetchIndividualVehicleDetails : () => {
+					try {
+						
+					} catch (error) {
+						
+					}
+				},
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();
