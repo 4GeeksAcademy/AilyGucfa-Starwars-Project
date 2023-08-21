@@ -7,7 +7,8 @@ const cardStyling = {
 };
 
 const CharacterCard = (props) => {
-    
+
+
     return (
         <>
             <div className="card" style={cardStyling}>
@@ -24,9 +25,12 @@ const CharacterCard = (props) => {
                         <p className="card-text">Gender: {props.gender}</p> 
                             <p className="card-text">Hair Color: {props.hair_color}</p> 
                                 <p className="card-text">Eye Color: {props.eye_color}</p> 
-                                <Link to="/characterDetails/">
-			                        <button className="btn btn-outline-primary btn-sm mt-2">Learn More</button>
-			                    </Link>
+                                    <Link to={`/characterDetails/${props.uid}`}> 
+                                        <button className="btn btn-outline-primary btn-sm mt-2">
+                                            Learn More
+                                    </button>
+                                    </Link>        
+
                                     
                                     <button className="heartIcon">    
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-suit-heart" viewBox="0 0 16 16">
@@ -44,7 +48,6 @@ CharacterCard.propTypes = {
     gender: PropTypes.string,
     hair_color: PropTypes.string,
     eye_color: PropTypes.string,
-    srcIMG: PropTypes.string
 };
 
 export default CharacterCard;

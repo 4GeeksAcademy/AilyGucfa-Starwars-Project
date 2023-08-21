@@ -1,10 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import PropTypes from "prop-types";
+import { Context } from "../store/appContext"; // Import from app context
 
+const CharacterDetails = () => {
+    const { characterId } = useParams();
+    console.log("characterId:", characterId); 
+    const parsedCharacterId = parseInt(characterId); // Parse the characterId as an integer
+    console.log("parsedCharacterId:", parsedCharacterId); 
+    const { store, actions } = useContext(Context); // Access context and actions
+    const characterDetails = store.characterDetails[parsedCharacterId] || {}; // Get the character details from the store
 
-const CharacterDetails = (props) => {
-    
+    useEffect(() => {
+        if (!characterDetails.name) {
+            actions.fetchIndividualCharacterDetails(parsedCharacterId);
+        }
+    }, [parsedCharacterId, characterDetails.name, actions]);
+
+    if (!characterDetails.name) {
+        return <div>Loading...</div>;
+    }
+
 
     return (
         <>
@@ -12,7 +27,7 @@ const CharacterDetails = (props) => {
                 <div className="row ">
                     <div className="col-4">
                     <img
-                        src={`https://starwars-visualguide.com/assets/img/characters/${props.srcIMG}.jpg`} 
+                        src={`https://starwars-visualguide.com/assets/img/characters/${parsedCharacterId}.jpg`} 
                         className="card-image"
                         alt="..."
                         onError={(e) => {
@@ -22,8 +37,8 @@ const CharacterDetails = (props) => {
                     </div>
 
                     <div className="col-8">
-                        <h5>NAME{props.name}</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu volutpat odio facilisis mauris sit amet massa. Rhoncus dolor purus non enim praesent elementum facilisis leo. Ornare arcu odio ut sem nulla. Amet porttitor eget dolor morbi non arcu risus quis. Velit sed ullamcorper morbi tincidunt ornare massa eget egestas. Augue interdum velit euismod in pellentesque massa placerat duis ultricies. Diam donec adipiscing tristique risus nec feugiat in fermentum. Purus gravida quis blandit turpis cursus in hac habitasse. Risus at ultrices mi tempus. Tincidunt vitae semper quis lectus nulla at. Ipsum faucibus vitae aliquet nec ullamcorper. Neque gravida in fermentum et sollicitudin ac orci. Pharetra pharetra massa massa ultricies mi.</p>
+                        <h5>NAME{characterDetails.name}</h5>
+                            <p>Lorem ipsum cha sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu volutpat odio facilisis mauris sit amet massa. Rhoncus dolor purus non enim praesent elementum facilisis leo. Ornare arcu odio ut sem nulla. Amet porttitor eget dolor morbi non arcu risus quis. Velit sed ullamcorper morbi tincidunt ornare massa eget egestas. Augue interdum velit euismod in pellentesque massa placerat duis ultricies. Diam donec adipiscing tristique risus nec feugiat in fermentum. Purus gravida quis blandit turpis cursus in hac habitasse. Risus at ultrices mi tempus. Tincidunt vitae semper quis lectus nulla at. Ipsum faucibus vitae aliquet nec ullamcorper. Neque gravida in fermentum et sollicitudin ac orci. Pharetra pharetra massa massa ultricies mi.</p>
                     </div>
                 </div>
             </div>
@@ -39,10 +54,6 @@ const CharacterDetails = (props) => {
         </>
     );
 };
-
-CharacterDetails.proptypes ={
-    name: PropTypes.string
-}
 
 
 export default CharacterDetails;

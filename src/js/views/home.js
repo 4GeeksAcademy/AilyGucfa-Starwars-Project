@@ -13,9 +13,9 @@ export const Home = () => {
 			<div className="container">
 				<div className="row"> <h2>Characters</h2></div>
 				<div className="row cardsInArow">
-					{store.people.map(person => 
+					{store.people.map((person,index) => 
 						<CharacterCard
-							key={person.uid} 
+							uid={index} // Use index as a unique identifier
 							name={person.name}
 							gender={person.gender}
 							hair_color={person.hair_color}
@@ -24,7 +24,7 @@ export const Home = () => {
                             height={person.height}
                             mass={person.mass}
                             skin_color={person.skin_color}
-							srcIMG={person.uid}	
+							srcIMG={index + 1}
 							cardType="characters"
 						/>
 					)}	
@@ -32,13 +32,13 @@ export const Home = () => {
 				<br></br>
 				<div className="row"><h2>Planets</h2></div>
 					<div className="row cardsInArow">
-						{store.planets.map(planet => 
+						{store.planets.map((planet, index) => 
 						<PlanetCard 
-							key={planet.uid} 
+							uid ={index}
 							name={planet.name} 
 							population = {planet.population}
 							climate= {planet.climate}
-							srcIMG={planet.uid}
+							srcIMG={index + 1}
 							cardType="planets"
 							/>)}	
 					</div>
@@ -46,13 +46,14 @@ export const Home = () => {
 				<div className="row"><h2>Vehicles</h2></div>
 					<div className="row cardsInArow	">
 				
-					{store.vehicles.map(vehicle => 
+					{store.vehicles.map((vehicle,index) => 
 						<VehiclesCard 
-							key={vehicle.uid} 
+							uid = {index}
 							name={vehicle.name}
 							model={vehicle.model}
 							cargo_capacity={vehicle.cargo_capacity}
 							consumables={vehicle.consumables}
+							srcIMG={index + 1}
 							cardType="vehicles"
 							/>)}	
 					</div>

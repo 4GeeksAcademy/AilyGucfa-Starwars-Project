@@ -6,7 +6,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			vehicles:[],
 			favorites:[],
 			characterDetails: {}, // Initialize with an empty object
-            planetDetails: {} // Initialize with an empty object
+            planetDetails: {}, // Initialize with an empty object
+			vehicleDetails: {}
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -47,29 +48,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 					let data = await response.json();
 					setStore({planets:data.results})
 				},
-				fetchInvidualCharacterDetails: async (characterId) => {
+				fetchIndividualCharacterDetails: async (characterId) => {
 					try {
-						const response = await fetch(`https://swapi.dev/api/people/${characterId}/`);
+						const response = await fetch(`https://www.swapi.tech/api/people/${characterId}/`);
 						if (!response.ok) {
 							throw new Error("Error fetching character details");
 						}
 						const characterData = await response.json();
 				
-						// Get the current store state
-						const store = getStore();
-				
-						// Update the characterDetails property of the store with the fetched data
-						setStore({
-							...store,
-							characterDetails: characterData
-						});
+						// Update the characterDetails property of the store using actions
+						getActions().updateCharacterDetails(characterData);
 					} catch (error) {
-						console.error("Error fetching character details:", error);
+						console.error("Error fetching character details:", error.message); // Log the error message
 					}
+				},
+				updateCharacterDetails: (characterData) => {
+					const store = getStore();
+					setStore({
+						...store,
+						characterDetails: characterData
+					});
 				},
 				fetchIndividualPlanetDetails: async (planetId) => {
 					try {
-						const response = await fetch(`https://swapi.dev/api/planets/${planetId}/`);
+						const response = await fetch(`https://www.swapi.tech/api/planets/${planetId}/`);
 						if (!response.ok) {
 							throw new Error("Error fetching planet details");
 						}
@@ -84,13 +86,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 							planetDetails: planetData
 						});
 					} catch (error) {
-						console.error("Error fetching character details:", error);
+						console.error("Error fetching planet details:", error);
 					}
 				},
-				fetchIndividualVehicleDetails : () => {
+				fetchIndividualVehicleDetails : async (vehicleId) => {
 					try {
-						
+						const response = await fetch (`https://www.swapi.tech/api/vehicles/${vehicleId}/`);
+						if(!response.ok){
+							throw new Error("Error fetching vehicle details");
+						}
+						const vehicleData = await response.json();
+						const store = getStore();
+						setStore({
+							...store,vehicleDetails:vehicleData
+						});
 					} catch (error) {
+						console.error("Error fetching vehicle details", error);
 						
 					}
 				},
