@@ -20,7 +20,7 @@ export const Home = () => {
 							gender={person.gender}
 							hair_color={person.hair_color}
 							eye_color={person.eye_color} 
-							birth_year={person.birth_year} // Add these details
+							birth_year={person.birth_year}
                             height={person.height}
                             mass={person.mass}
                             skin_color={person.skin_color}

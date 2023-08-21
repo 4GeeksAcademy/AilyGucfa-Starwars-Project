@@ -48,3 +48,8 @@ img{
     height: auto ;
     aspect-ratio: 14 / 14;
 }
+#topPic{
+    height: 70px;
+    width: 150px;
+    margin-left: 5px;
+}
