@@ -4,10 +4,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			people: [],
 			planets:[],
 			vehicles:[],
-			favorites:[],
-			characterDetails: { data: null, isLoading: false }, // Initialize with null data and isLoading flag
-			planetDetails: { data: null, isLoading: false }, // Initialize with null data and isLoading flag
-			vehicleDetails: { data: null, isLoading: false }, // Initialize with null data and isLoading flag
+			favoriteItems:[],
+			characterDetails: {}, 
+			planetDetails: {}, 
+			vehicleDetails: {}
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -48,58 +48,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 					let data = await response.json();
 					setStore({planets:data.results})
 				},
-				// fetchIndividualCharacterDetails: async (characterId) => {
-				// 	try {
-				// 		const response = await fetch(`https://www.swapi.tech/api/people/${characterId}/`);
-				// 		if (!response.ok) {
-				// 			throw new Error("Error fetching character details");
-				// 		}
-				// 		const characterData = await response.json();
-				
-				// 		// Update the characterDetails property of the store using actions
-				// 		getActions().updateCharacterDetails(characterData);
-				// 	} catch (error) {
-				// 		console.error("Error fetching character details:", error.message); // Log the error message
-				// 	}
-				// },
-				// updateCharacterDetails: (characterData) => {
-				// 	const store = getStore();
-				// 	setStore({
-				// 		...store,
-				// 		characterDetails: characterData
-				// 	});
-				// },
 				fetchIndividualCharacterDetails: (characterId) => {
-				// Set isLoading to true before fetching
-				getActions().updateCharacterDetails({ isLoading: true });
-
-				fetch(`https://www.swapi.tech/api/people/${characterId}/`)
-					.then(response => {
-						if (response.ok) {
-							return response.json();
-						} else {
-							throw new Error("Error fetching character details");
-						}
+					fetch(`https://swapi.dev/api/people/${characterId}/`)
+						.then(response => {
+							if (response.ok) {
+								return response.json();
+							} else {
+								throw new Error("Error fetching character details");
+							}
 					})
 					.then(characterData => {
-						// Update the characterDetails property of the store using actions
-						getActions().updateCharacterDetails({ data: characterData, isLoading: false });
+						// This .then block receives the JSON data of the character details. 
+						getActions().updateCharacterDetails({data: characterData});
 					})
 					.catch(error => {
 						console.error("Error fetching character details:", error.message);
-						// Update characterDetails with error and isLoading set to false
-						getActions().updateCharacterDetails({ data: null, isLoading: false });
+						getActions().updateCharacterDetails();
 					});
 			},
+			// Updates the character details in the store with new data
 			updateCharacterDetails: (characterData) => {
-				const store = getStore();
+				const store = getStore(); //get the current state of the store
+				//setStore() it is like you're telling your app to update the information in the store. 
 				setStore({
 					...store,
 					characterDetails: characterData,
-				});
+				}); 
 			},
 				fetchIndividualPlanetDetails: (planetId) => {
-					fetch(`https://www.swapi.tech/api/people/${planetId}/`)
+					fetch(`https://swapi.dev/api/planets/${planetId}/`)
 						.then(response => {
 							if (response.ok) {
 								return response.json();
@@ -108,11 +85,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 							}
 						})
 						.then(planetData => {
-							// Update the characterDetails property of the store using actions
-							getActions().updatePlanetDetails(planetData);
+							getActions().updatePlanetDetails({data: planetData});
 						})
 						.catch(error => {
 							console.error("Error fetching planet details:", error.message);
+							getActions().updatePlanetDetails();
 						});
 				},
 				updatePlanetDetails: (planetData) => {
@@ -123,8 +100,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 				},
 				
-				fetchIndividualVehucleDetails: (vehicleId) => {
-					fetch(`https://www.swapi.tech/api/people/${vehicleId}/`)
+				fetchIndividualVehicleDetails: (vehicleId) => {
+					fetch(`https://swapi.dev/api/vehicles/${vehicleId}/`)
 						.then(response => {
 							if (response.ok) {
 								return response.json();
@@ -133,8 +110,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							}
 						})
 						.then(vehicleData => {
-							// Update the characterDetails property of the store using actions
-							getActions().updateVehicleDetails(vehicleData);
+							getActions().updateVehicleDetails({data:vehicleData});
 						})
 						.catch(error => {
 							console.error("Error fetching vehicle details:", error.message);
@@ -147,6 +123,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 						vehicleDetails: vehicleData
 					});
 				},
+				addFavorite: (name) => {
+					const store = getStore(); //current state of the store 
+					const updatedFavorites = [...store.favoriteItems, name]; // create a new array, spreads the existing array of favorite characters and adds adds the new characterName to the end
+					setStore({ favoriteItems: updatedFavorites });
+				},
+				
 				changeColor: (index, color) => {
 				//get the store
 				const store = getStore();

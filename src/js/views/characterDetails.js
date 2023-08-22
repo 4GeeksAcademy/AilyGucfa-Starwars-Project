@@ -5,9 +5,9 @@ import { Context } from "../store/appContext";
 
 const CharacterDetails = () => {
      const { characterId } = useParams(); // Get the characterId from the route parameters
-     const parsedCharacterId = parseInt(characterId) +1; // Parse the characterId as an integer
-     const { store, actions } = useContext(Context); // Access the store and actions from the app context
-     // Use the useEffect hook to fetch character details when needed
+     const parsedCharacterId = parseInt(characterId) +1; 
+     const { store, actions } = useContext(Context); // to Access the store and actions from the appContext
+     
      useEffect(() => {
              actions.fetchIndividualCharacterDetails(parsedCharacterId);
     }, []);

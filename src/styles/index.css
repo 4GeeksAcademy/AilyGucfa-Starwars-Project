@@ -48,8 +48,14 @@ img{
     height: auto ;
     aspect-ratio: 14 / 14;
 }
-#topPic{
-    height: 70px;
-    width: 150px;
-    margin-left: 5px;
+#starwarsImage{
+    height: 60px;
+    width: 130px;
+    margin-left: 10px;
+}
+.favoriteLenght{
+    background-color: grey;
+    padding: 4px;
+    border-radius: 5px;
+
 }
