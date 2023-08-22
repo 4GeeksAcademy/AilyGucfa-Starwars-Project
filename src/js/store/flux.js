@@ -4,10 +4,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			people: [],
 			planets:[],
 			vehicles:[],
-			favoriteItems:[],
 			characterDetails: {}, 
 			planetDetails: {}, 
-			vehicleDetails: {}
+			vehicleDetails: {},
+			favoriteItems:[]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -123,12 +123,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 						vehicleDetails: vehicleData
 					});
 				},
-				addFavorite: (name) => {
+				addFavorite: (item) => {
 					const store = getStore(); //current state of the store 
-					const updatedFavorites = [...store.favoriteItems, name]; // create a new array, spreads the existing array of favorite characters and adds adds the new characterName to the end
+					const updatedFavorites = [...store.favoriteItems, item]; // create a new array, spreads the existing array of favorite characters and adds adds the new characterName to the end
 					setStore({ favoriteItems: updatedFavorites });
 				},
-				
+				removeFavorite: (id) =>{
+					const store = getStore();
+					const updatedFavoriteList =store.favoriteItems.filter(item => item !==id)
+					setStore({favoriteItems: updatedFavoriteList})
+				},
 				changeColor: (index, color) => {
 				//get the store
 				const store = getStore();
